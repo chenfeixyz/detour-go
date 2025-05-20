@@ -7,10 +7,10 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	dtcrowd "github.com/o0olele/detour-go/crowd"
-	detour "github.com/o0olele/detour-go/detour"
-	"github.com/o0olele/detour-go/loader"
-	dtcache "github.com/o0olele/detour-go/tilecache"
+	dtcrowd "github.com/chenfeixyz/detour-go/crowd"
+	detour "github.com/chenfeixyz/detour-go/detour"
+	"github.com/chenfeixyz/detour-go/loader"
+	dtcache "github.com/chenfeixyz/detour-go/tilecache"
 )
 
 type ServerAgent struct {

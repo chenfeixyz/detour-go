@@ -18,7 +18,7 @@ package dtcrowd
 import (
 	"math"
 
-	detour "github.com/o0olele/detour-go/detour"
+	detour "github.com/chenfeixyz/detour-go/detour"
 )
 
 func (this *DtLocalBoundary) Reset() {

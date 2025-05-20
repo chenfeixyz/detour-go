@@ -1,4 +1,4 @@
-module github.com/o0olele/detour-go
+module github.com/chenfeixyz/detour-go
 
 go 1.20
 

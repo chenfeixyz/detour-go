@@ -1,50 +1,50 @@
 package dtcrowd
 
-import detour "github.com/o0olele/detour-go/detour"
+import detour "github.com/chenfeixyz/detour-go/detour"
 
-/// The maximum number of neighbors that a crowd agent can take into account
-/// for steering decisions.
-/// @ingroup crowd
+// / The maximum number of neighbors that a crowd agent can take into account
+// / for steering decisions.
+// / @ingroup crowd
 const DT_CROWDAGENT_MAX_NEIGHBOURS int = 6
 
-/// The maximum number of corners a crowd agent will look ahead in the path.
-/// This value is used for sizing the crowd agent corner buffers.
-/// Due to the behavior of the crowd manager, the actual number of useful
-/// corners will be one less than this number.
-/// @ingroup crowd
+// / The maximum number of corners a crowd agent will look ahead in the path.
+// / This value is used for sizing the crowd agent corner buffers.
+// / Due to the behavior of the crowd manager, the actual number of useful
+// / corners will be one less than this number.
+// / @ingroup crowd
 const DT_CROWDAGENT_MAX_CORNERS int = 4
 
-/// The maximum number of crowd avoidance configurations supported by the
-/// crowd manager.
-/// @ingroup crowd
-/// @see dtObstacleAvoidanceParams, dtCrowd::setObstacleAvoidanceParams(), dtCrowd::getObstacleAvoidanceParams(),
-///		 dtCrowdAgentParams::obstacleAvoidanceType
+// / The maximum number of crowd avoidance configurations supported by the
+// / crowd manager.
+// / @ingroup crowd
+// / @see dtObstacleAvoidanceParams, dtCrowd::setObstacleAvoidanceParams(), dtCrowd::getObstacleAvoidanceParams(),
+// /		 dtCrowdAgentParams::obstacleAvoidanceType
 const DT_CROWD_MAX_OBSTAVOIDANCE_PARAMS int = 8
 
-/// The maximum number of query filter types supported by the crowd manager.
-/// @ingroup crowd
-/// @see dtQueryFilter, dtCrowd::getFilter() dtCrowd::getEditableFilter(),
-///		dtCrowdAgentParams::queryFilterType
+// / The maximum number of query filter types supported by the crowd manager.
+// / @ingroup crowd
+// / @see dtQueryFilter, dtCrowd::getFilter() dtCrowd::getEditableFilter(),
+// /		dtCrowdAgentParams::queryFilterType
 const DT_CROWD_MAX_QUERY_FILTER_TYPE int = 16
 
-/// Provides neighbor data for agents managed by the crowd.
-/// @ingroup crowd
-/// @see dtCrowdAgent::neis, dtCrowd
+// / Provides neighbor data for agents managed by the crowd.
+// / @ingroup crowd
+// / @see dtCrowdAgent::neis, dtCrowd
 type DtCrowdNeighbour struct {
 	idx  int     ///< The index of the neighbor in the crowd.
 	dist float32 ///< The distance between the current agent and the neighbor.
 }
 
-/// The type of navigation mesh polygon the agent is currently traversing.
-/// @ingroup crowd
+// / The type of navigation mesh polygon the agent is currently traversing.
+// / @ingroup crowd
 type CrowdAgentState int
 
 const DT_CROWDAGENT_STATE_INVALID CrowdAgentState = 0 ///< The agent is not in a valid state.
 const DT_CROWDAGENT_STATE_WALKING CrowdAgentState = 1 ///< The agent is traversing a normal navigation mesh polygon.
 const DT_CROWDAGENT_STATE_OFFMESH CrowdAgentState = 2 ///< The agent is traversing an off-mesh connection.
 
-/// Configuration parameters for a crowd agent.
-/// @ingroup crowd
+// / Configuration parameters for a crowd agent.
+// / @ingroup crowd
 type DtCrowdAgentParams struct {
 	radius          float32 ///< Agent radius. [Limit: >= 0]
 	height          float32 ///< Agent height. [Limit: > 0]
@@ -128,8 +128,8 @@ const DT_CROWDAGENT_TARGET_WAITING_FOR_QUEUE MoveRequestState = 4
 const DT_CROWDAGENT_TARGET_WAITING_FOR_PATH MoveRequestState = 5
 const DT_CROWDAGENT_TARGET_VELOCITY MoveRequestState = 6
 
-/// Represents an agent managed by a #dtCrowd object.
-/// @ingroup crowd
+// / Represents an agent managed by a #dtCrowd object.
+// / @ingroup crowd
 type DtCrowdAgent struct {
 	/// True if the agent is active, false if the agent is in an unused slot in the agent pool.
 	active bool
@@ -205,9 +205,9 @@ type DtCrowdAgentAnimation struct {
 	tmax     float32
 }
 
-/// Crowd agent update flags.
-/// @ingroup crowd
-/// @see dtCrowdAgentParams::updateFlags
+// / Crowd agent update flags.
+// / @ingroup crowd
+// / @see dtCrowdAgentParams::updateFlags
 type UpdateFlags uint8
 
 const (
@@ -225,8 +225,8 @@ type DtCrowdAgentDebugInfo struct {
 	vod      *DtObstacleAvoidanceDebugData
 }
 
-/// Provides local steering behaviors for a group of agents.
-/// @ingroup crowd
+// / Provides local steering behaviors for a group of agents.
+// / @ingroup crowd
 type DtCrowd struct {
 	m_maxAgents    int
 	m_agents       []DtCrowdAgent

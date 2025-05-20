@@ -15,7 +15,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 package dtcrowd
 
-import detour "github.com/o0olele/detour-go/detour"
+import detour "github.com/chenfeixyz/detour-go/detour"
 
 const MAX_LOCAL_SEGS int = 8
 const MAX_LOCAL_POLYS int = 16

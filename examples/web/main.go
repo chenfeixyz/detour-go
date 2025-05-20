@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/o0olele/detour-go/debugger"
+	"github.com/chenfeixyz/detour-go/debugger"
 )
 
 func main() {
