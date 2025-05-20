@@ -1,0 +1,1 @@
+> forked from [detour-go](https://github.com/o0olele/detour-go)
