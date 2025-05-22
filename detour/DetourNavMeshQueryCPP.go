@@ -668,6 +668,7 @@ type dtFindNearestPolyQuery struct {
 	m_nearestDistanceSqr float32
 	m_nearestRef         DtPolyRef
 	m_nearestPoint       [3]float32
+	m_overPoly           bool // #448
 }
 
 func (this *dtFindNearestPolyQuery) constructor(query *DtNavMeshQuery, center []float32) {
@@ -678,6 +679,7 @@ func (this *dtFindNearestPolyQuery) constructor(query *DtNavMeshQuery, center []
 
 func (this *dtFindNearestPolyQuery) nearestRef() DtPolyRef   { return this.m_nearestRef }
 func (this *dtFindNearestPolyQuery) nearestPoint() []float32 { return this.m_nearestPoint[:] }
+func (this *dtFindNearestPolyQuery) isOverPoly() bool        { return this.m_overPoly } // #448
 
 func (this *dtFindNearestPolyQuery) Process(tile *DtMeshTile, polys []*DtPoly, refs []DtPolyRef, count int) {
 	//DtIgnoreUnused(polys);
@@ -708,6 +710,7 @@ func (this *dtFindNearestPolyQuery) Process(tile *DtMeshTile, polys []*DtPoly, r
 
 			this.m_nearestDistanceSqr = d
 			this.m_nearestRef = ref
+			this.m_overPoly = posOverPoly
 		}
 	}
 }
@@ -728,6 +731,12 @@ func (this *dtFindNearestPolyQuery) Process(tile *DtMeshTile, polys []*DtPoly, r
 func (this *DtNavMeshQuery) FindNearestPoly(center, halfExtents []float32,
 	filter *DtQueryFilter,
 	nearestRef *DtPolyRef, nearestPt []float32) DtStatus {
+	return this.FindNearestPoly2(center, halfExtents, filter, nearestRef, nearestPt, nil)
+}
+
+func (this *DtNavMeshQuery) FindNearestPoly2(center, halfExtents []float32,
+	filter *DtQueryFilter,
+	nearestRef *DtPolyRef, nearestPt []float32, isOverPoly *bool) DtStatus {
 	DtAssert(this.m_nav != nil)
 
 	if nearestRef == nil {
@@ -745,6 +754,9 @@ func (this *DtNavMeshQuery) FindNearestPoly(center, halfExtents []float32,
 	// is valid.
 	if nearestPt != nil && (*nearestRef) != 0 {
 		DtVcopy(nearestPt, query.nearestPoint())
+		if isOverPoly != nil {
+			*isOverPoly = query.isOverPoly()
+		}
 	}
 	return DT_SUCCESS
 }
