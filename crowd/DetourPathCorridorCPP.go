@@ -60,7 +60,12 @@ func dtMergeCorridorStartMoved(path []detour.DtPolyRef, npath, maxPath int,
 	}
 
 	// Store visited
-	for i := 0; i < req; i += 1 {
+	//for i := 0; i < req; i += 1 {
+	//	path[i] = visited[(nvisited-1)-i]
+	//}
+
+	n := detour.DtMinInt(req, maxPath)
+	for i := 0; i < n; i += 1 {
 		path[i] = visited[(nvisited-1)-i]
 	}
 
