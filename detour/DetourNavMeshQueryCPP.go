@@ -256,12 +256,13 @@ func (this *DtNavMeshQuery) FindRandomPoint(filter *DtQueryFilter, frand func() 
 	var pt [3]float32
 	DtRandomPointInConvexPoly(verts[:], int(poly.VertCount), areas[:], s, t, pt[:])
 
-	var h float32
-	status := this.GetPolyHeight(polyRef, pt[:], &h)
-	if DtStatusFailed(status) {
-		return status
-	}
-	pt[1] = h
+	//var h float32
+	//status := this.GetPolyHeight(polyRef, pt[:], &h)
+	//if DtStatusFailed(status) {
+	//	return status
+	//}
+	//pt[1] = h
+	this.ClosestPointOnPoly(polyRef, pt[:], pt[:], nil)
 
 	DtVcopy(randomPt, pt[:])
 	*randomRef = polyRef
@@ -438,17 +439,18 @@ func (this *DtNavMeshQuery) FindRandomPointAroundCircle(startRef DtPolyRef, cent
 	var pt [3]float32
 	DtRandomPointInConvexPoly(verts[:], int(randomPoly.VertCount), areas[:], s, t, pt[:])
 
-	var h float32
-	stat := this.GetPolyHeight(randomPolyRef, pt[:], &h)
-	if DtStatusFailed(status) {
-		return stat
-	}
-	pt[1] = h
+	//var h float32
+	//stat := this.GetPolyHeight(randomPolyRef, pt[:], &h)
+	//if DtStatusFailed(status) {
+	//	return stat
+	//}
+	//pt[1] = h
+	this.ClosestPointOnPoly(randomPolyRef, pt[:], pt[:], nil)
 
 	DtVcopy(randomPt, pt[:])
 	*randomRef = randomPolyRef
 
-	return DT_SUCCESS
+	return status
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
