@@ -1466,7 +1466,7 @@ func removeVertex(mesh *DtTileCachePolyMesh, rem uint16, maxTris int32) detour.D
 	}
 
 	// Remove vertex.
-	for i := int32(rem); i < mesh.Nverts; i++ {
+	for i := int32(rem); i < mesh.Nverts-1; i++ {
 		mesh.Verts[i*3+0] = mesh.Verts[(i+1)*3+0]
 		mesh.Verts[i*3+1] = mesh.Verts[(i+1)*3+1]
 		mesh.Verts[i*3+2] = mesh.Verts[(i+1)*3+2]
