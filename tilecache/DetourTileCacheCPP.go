@@ -120,7 +120,8 @@ func (this *DtTileCache) Init(params *DtTileCacheParams,
 		this.m_tiles[i].Next = this.m_nextFreeTile
 		this.m_nextFreeTile = &this.m_tiles[i]
 	}
-
+	// tileReload
+	this.TilesMap = make(map[int]*DtCompressedTile)
 	// Init ID generator values.
 	this.m_tileBits = detour.DtIlog2(detour.DtNextPow2(uint32(this.m_params.MaxTiles)))
 	// Only allow 31 salt bits, since the salt mask is calculated using 32bit uint and it will overflow.

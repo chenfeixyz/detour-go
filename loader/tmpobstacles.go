@@ -1,6 +1,8 @@
 package loader
 
 import (
+	"bytes"
+	"errors"
 	"os"
 	"reflect"
 	"unsafe"
@@ -147,4 +149,63 @@ func LoadTempObstacles(path string) (*detour.DtNavMesh, *dtcache.DtTileCache) {
 	detour.DtAssert(err == nil)
 
 	return LoadTempObstaclesByBytes(meshData)
+}
+
+func ReLoadTempObstaclesByBytes(data []byte, navMesh *detour.DtNavMesh, tileCache *dtcache.DtTileCache) error {
+	header := (*TileCacheSetHeader)(unsafe.Pointer(&(data[0])))
+	if header.magic != TILECACHESET_MAGIC {
+		return errors.New("TILECACHESET_MAGIC error")
+	}
+	if header.version != TILECACHESET_VERSION {
+		return errors.New("TILECACHESET_VERSION error")
+	}
+
+	var status detour.DtStatus
+	var offset = int(unsafe.Sizeof(*header))
+	for i := 0; i < int(header.numTiles); i++ {
+		tileHeader := (*TileCacheTileHeader)(unsafe.Pointer(&(data[offset])))
+		offset += int(unsafe.Sizeof(*tileHeader))
+		if tileHeader.tileRef == 0 || tileHeader.dataSize == 0 {
+			break
+		}
+
+		var tempData []byte
+		sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&tempData)))
+		sliceHeader.Cap = int(tileHeader.dataSize)
+		sliceHeader.Len = int(tileHeader.dataSize)
+		sliceHeader.Data = uintptr(unsafe.Pointer(&data[offset]))
+		offset += int(tileHeader.dataSize)
+		data := make([]byte, tileHeader.dataSize)
+		copy(data, tempData)
+
+		if t := tileCache.TilesMap[i]; t != nil {
+			if !bytes.Equal(t.Data, data) {
+				tileCache.RemoveTile(t.Tile, nil, nil)
+
+				var tile dtcache.DtCompressedTileRef
+				status = tileCache.AddTile(data, tileHeader.dataSize, dtcache.DT_COMPRESSEDTILE_FREE_DATA, &tile)
+				detour.DtAssert(detour.DtStatusSucceed(status))
+
+				if tile != 0 {
+					t = tileCache.GetTileByRef(tile)
+					if t == nil {
+						return errors.New("GetTileByRef error")
+					} else {
+						tileCache.TilesMap[i] = t
+					}
+				} else {
+					detour.DtAssert(false)
+				}
+				tileCache.BuildNavMeshTile(t.Tile, navMesh)
+			}
+		}
+	}
+	return nil
+}
+
+func ReLoadTempObstacles(path string, nav *detour.DtNavMesh, tile *dtcache.DtTileCache) error {
+	meshData, err := os.ReadFile(path)
+	detour.DtAssert(err == nil)
+
+	return ReLoadTempObstaclesByBytes(meshData, nav, tile)
 }

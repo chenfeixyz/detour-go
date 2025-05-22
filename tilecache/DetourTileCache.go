@@ -22,6 +22,8 @@ type DtCompressedTile struct {
 	DataSize       int32
 	Flags          uint32
 	Next           *DtCompressedTile
+	// tileReload
+	Tile DtCompressedTileRef
 }
 
 type ObstacleState uint8
@@ -128,6 +130,8 @@ type DtTileCache struct {
 
 	m_update  [MAX_UPDATE]DtCompressedTileRef
 	m_nupdate int32
+	// tileReload
+	TilesMap map[int]*DtCompressedTile
 }
 
 func (this *DtTileCache) GetCompressor() DtTileCacheCompressor   { return this.m_tcomp }
