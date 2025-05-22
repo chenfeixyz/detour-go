@@ -502,7 +502,7 @@ func (this *DtPathCorridor) MoveTargetPosition(npos []float32, navquery *detour.
 func (this *DtPathCorridor) SetCorridor(target []float32, path []detour.DtPolyRef, npath int) {
 	detour.DtAssert(len(this.m_path) > 0)
 	detour.DtAssert(npath > 0)
-	detour.DtAssert(npath < this.m_maxPath)
+	detour.DtAssert(npath <= this.m_maxPath)
 
 	detour.DtVcopy(this.m_target[:], target)
 	copy(this.m_path[0:], path[:npath])
