@@ -643,6 +643,7 @@ func DtClosestHeightPointTriangle(p, a, b, c []float32, h *float32) bool {
 }
 
 func DtIntersectSegmentPoly2D(p0, p1, verts []float32, nverts int, tmin, tmax *float32, segMin, segMax *int) bool {
+	const EPS = 0.000001 // 0.00000001
 	*tmin = 0
 	*tmax = 1
 	*segMin = -1
@@ -658,7 +659,7 @@ func DtIntersectSegmentPoly2D(p0, p1, verts []float32, nverts int, tmin, tmax *f
 		DtVsub(diff[:], p0, verts[j*3:])
 		n := DtVperp2D(edge[:], diff[:])
 		d := DtVperp2D(dir[:], edge[:])
-		if math.Abs(float64(d)) < 0.00000001 {
+		if math.Abs(float64(d)) < EPS {
 			// S is nearly parallel to this edge
 			if n < 0 {
 				return false
